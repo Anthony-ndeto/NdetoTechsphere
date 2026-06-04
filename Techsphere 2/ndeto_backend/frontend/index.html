@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NDETO Techsphere | Modern Electronics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="ambient-glow glow-purple"></div>
+    <div class="ambient-glow glow-pink"></div>
+
+    <!-- Floating Dark/Light Mode Toggle Button -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <header class="glass-nav">
+        <div class="logo" onclick="navigateTo('home')">
+            <div class="logo-icon"><i class="fas fa-microchip"></i></div>
+            <h1>NDETO<span>Techsphere</span></h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <nav class="nav-links">
+            <a onclick="navigateTo('home')">Home</a>
+            <a onclick="navigateTo('products')">Shop</a>
+            <a onclick="navigateTo('tracking')">Track Order</a>
+            <a id="dashboardNavLink" onclick="navigateTo('dashboard')" style="display: none;">Dashboard</a>
+        </nav>
+        <div class="nav-actions">
+            <div class="cart-icon" onclick="navigateTo('cart')">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount" class="badge">0</span>
+            </div>
+            <div class="user-icon" onclick="handleUserClick()">
+                <i class="fas fa-user"></i>
+                <span id="userNameDisplay" class="username-display"></span>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-container">
+        <!-- HOME VIEW -->
+        <section id="view-home" class="view active">
+            <div class="hero-stats-banner">
+                <div class="stat-card glass-panel"><div class="stat-number">200M+</div><div class="stat-label">TRUSTED USERS</div></div>
+                <div class="stat-card glass-panel"><div class="stat-number">60+</div><div class="stat-label">COUNTRIES</div></div>
+                <div class="stat-card glass-panel"><div class="stat-number">365</div><div class="stat-label">DAYS WARRANTY</div></div>
+            </div>
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>Next-Gen Audio & Tech</h2>
+                    <p>Experience crystal clear sound and ultimate performance with our latest drops. Trusted by millions worldwide.</p>
+                    <button class="btn-primary" onclick="navigateTo('products')">Shop Now →</button>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop" alt="Premium Electronics">
+                </div>
+            </div>
+            <div class="section-title"><h3>Featured Categories</h3></div>
+            <div class="categories-grid">
+                <div class="category-card glass-panel" onclick="filterCategory('all')"><i class="fas fa-th-large"></i><h4>All</h4></div>
+                <div class="category-card glass-panel" onclick="filterCategory('audio')"><i class="fas fa-ear-listen"></i><h4>Audio</h4></div>
+                <div class="category-card glass-panel" onclick="filterCategory('smartphones')"><i class="fas fa-mobile-screen"></i><h4>Smartphones</h4></div>
+                <div class="category-card glass-panel" onclick="filterCategory('wearables')"><i class="fas fa-stopwatch"></i><h4>Wearables</h4></div>
+                <div class="category-card glass-panel" onclick="filterCategory('accessories')"><i class="fas fa-plug"></i><h4>Accessories</h4></div>
+            </div>
+            <div class="section-title"><h3>Flash Sales</h3></div>
+            <div class="products-grid" id="featuredProducts"></div>
+            <div class="testimonials-section">
+                <div class="section-title"><h3>⭐ What Our Customers Say</h3></div>
+                <div class="testimonials-grid" id="testimonialsGrid"></div>
+            </div>
+            <div class="about-section glass-panel">
+                <h2><i class="fas fa-info-circle"></i> About NDETO Techsphere</h2>
+                <p>NDETO Techsphere is a premium electronics brand dedicated to delivering cutting-edge technology with a futuristic design language. We blend innovation, performance, and sustainability to empower creators, gamers, and dreamers worldwide.</p>
+                <div class="about-stats"><div><div class="stat-number" style="font-size:1.8rem;">14+</div><div>Products</div></div><div><div class="stat-number" style="font-size:1.8rem;">24/7</div><div>Support</div></div><div><div class="stat-number" style="font-size:1.8rem;">4.9★</div><div>Rating</div></div></div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS VIEW -->
+        <section id="view-products" class="view">
+            <div class="shop-layout" style="display:flex; gap:20px; flex-wrap:wrap;">
+                <aside class="filters glass-panel" style="width:250px; padding:20px;">
+                    <h3>Filters</h3>
+                    <select id="categoryFilter" class="form-group" style="width:100%; margin-top:10px;">
+                        <option value="all">All</option>
+                        <option value="smartphones">Smartphones</option>
+                        <option value="audio">Audio</option>
+                        <option value="wearables">Wearables</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </aside>
+                <div class="products-container" style="flex:1;"><div class="products-grid" id="allProducts"></div></div>
+            </div>
+        </section>
+
+        <!-- CART VIEW -->
+        <section id="view-cart" class="view">
+            <div class="cart-container glass-panel">
+                <h2>Your Cart</h2>
+                <div id="cartItems" class="cart-items"></div>
+                <div class="cart-summary"><h3>Subtotal: KES <span id="cartTotal">0</span></h3><button class="btn-primary" onclick="navigateTo('checkout')">Proceed to Checkout</button></div>
+            </div>
+        </section>
+
+        <!-- CHECKOUT VIEW -->
+        <section id="view-checkout" class="view">
+            <div class="checkout-container">
+                <div class="checkout-form glass-panel">
+                    <h2>Checkout</h2>
+                    <form id="checkoutForm">
+                        <div class="form-group"><label>Full Name</label><input type="text" id="customerName" placeholder="John Doe" required></div>
+                        <div class="form-group"><label>Phone Number</label><input type="tel" id="customerPhone" placeholder="0712345678" required></div>
+                        <div class="form-group"><label>Delivery Location</label><input type="text" id="deliveryLocation" placeholder="Nairobi, CBD" required></div>
+                        <h3>Payment Method</h3>
+                        <div class="payment-methods">
+                            <label class="payment-option"><input type="radio" name="payment" value="mpesa" checked><span><img src="https://upload.wikimedia.org/wikipedia/commons/1/15/M-PESA_LOGO-01.svg" alt="M-Pesa" width="50" style="vertical-align: middle;"> M-Pesa</span></label>
+                            <label class="payment-option"><input type="radio" name="payment" value="card"><span><i class="fas fa-credit-card"></i> Card</span></label>
+                        </div>
+                        <div id="mpesaDetails"><input type="text" id="mpesaPhone" placeholder="M-Pesa number (e.g. 0712345678)"><small style="color: var(--text-muted);">You will receive a prompt on your phone.</small></div>
+                        <button type="submit" class="btn-primary w-100">Pay KES <span id="checkoutTotal">0</span></button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRACKING VIEW -->
+        <section id="view-tracking" class="view">
+            <div class="tracking-container glass-panel" style="max-width:600px; margin:0 auto; padding:40px; text-align:center;">
+                <h2>Track Your Order</h2>
+                <div class="search-bar" style="max-width:400px; margin:20px auto;"><input type="text" id="trackId" placeholder="Order ID (e.g. NDT-123)"><button onclick="simulateTracking()"><i class="fas fa-search"></i></button></div>
+                <div id="trackingResult" class="hidden">
+                    <div class="progress-bar"><div class="step active"><i class="fas fa-check-circle"></i><p>Confirmed</p></div><div class="line active"></div><div class="step active"><i class="fas fa-box"></i><p>Processing</p></div><div class="line"></div><div class="step"><i class="fas fa-truck"></i><p>Shipped</p></div><div class="line"></div><div class="step"><i class="fas fa-home"></i><p>Delivered</p></div></div>
+                    <button class="btn-primary" onclick="generateReceiptForTracked()">📄 View QR Receipt</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view">
+            <div class="dashboard-container" style="max-width:1200px; margin:0 auto;"><h2>My Dashboard</h2><div id="dashboardContent" class="dashboard-grid"></div></div>
+        </section>
+
+        <!-- AUTH VIEW -->
+        <section id="view-auth" class="view">
+            <div class="auth-wrapper">
+                <div class="auth-card" id="authCard">
+                    <div id="loginFormContainer">
+                        <h2>Welcome Back</h2>
+                        <form id="loginFormElement"><div class="form-floating"><input type="email" id="loginEmail" placeholder=" " required><label>Email Address</label></div><div class="form-floating"><input type="password" id="loginPassword" placeholder=" " required><label>Password</label></div><button type="submit" id="loginBtn" class="btn-primary w-100">Login</button></form>
+                        <div class="social-login"><div class="social-icon"><i class="fab fa-google"></i></div><div class="social-icon"><i class="fab fa-facebook-f"></i></div><div class="social-icon"><i class="fab fa-apple"></i></div></div>
+                        <div class="auth-switch" onclick="toggleAuthForm()">Don't have an account? <strong>Sign up</strong></div>
+                    </div>
+                    <div id="signupFormContainer" style="display: none;">
+                        <h2>Create Account</h2>
+                        <form id="signupFormElement"><div class="form-floating"><input type="text" id="signupName" placeholder=" " required><label>Full Name</label></div><div class="form-floating"><input type="email" id="signupEmail" placeholder=" " required><label>Email Address</label></div><div class="form-floating"><input type="password" id="signupPassword" placeholder=" " required><label>Password</label></div><button type="submit" id="signupBtn" class="btn-primary w-100">Sign Up</button></form>
+                        <div class="social-login"><div class="social-icon"><i class="fab fa-google"></i></div><div class="social-icon"><i class="fab fa-facebook-f"></i></div><div class="social-icon"><i class="fab fa-apple"></i></div></div>
+                        <div class="auth-switch" onclick="toggleAuthForm()">Already have an account? <strong>Login</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section"><h4>NDETO Techsphere</h4><p>Premium electronics for the future.</p><div class="social-icons"><i class="fab fa-facebook-f"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i></div></div>
+            <div class="footer-section"><h4>Quick Links</h4><p><a onclick="navigateTo('home')">Home</a></p><p><a onclick="navigateTo('products')">Shop</a></p><p><a onclick="navigateTo('tracking')">Track Order</a></p></div>
+            <div class="footer-section"><h4>Contact</h4><p><i class="fas fa-phone-alt"></i> +254 700 123 456</p><p><i class="fas fa-envelope"></i> support@ndetotech.com</p></div>
+        </div>
+        <div class="copyright"><p>&copy; 2025 NDETO Techsphere. All rights reserved.</p></div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="mpesaPreloader" class="modal-mpesa"><div class="mpesa-modal-content"><div class="mpesa-loader"></div><h3>Initiating M-Pesa...</h3><p>Please check your phone</p></div></div>
+    <div id="successOrderModal" class="modal-mpesa"><div class="success-popup"><div class="success-icon"><i class="fas fa-check-circle"></i></div><h3>Order Placed Successfully!</h3><p>Order ID: <strong id="finalOrderId"></strong></p><button class="btn-primary" onclick="closeSuccessModal()">Continue Shopping</button></div></div>
+    <div id="authSuccessModal" class="modal-mpesa"><div class="auth-success-modal"><div class="success-icon" style="color:var(--pink);"><i class="fas fa-user-check"></i></div><h3 id="authSuccessMessage"></h3><button class="btn-primary" onclick="closeAuthSuccessModal()">OK</button></div></div>
+    <div id="receiptModal" class="modal-mpesa"><div id="receiptContent" class="receipt-modal"></div></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
